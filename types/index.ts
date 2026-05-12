@@ -1,0 +1,78 @@
+// ============================================================
+// NotaLens - TypeScript Types (sesuai ERD)
+// ============================================================
+
+export interface User {
+  user_id: number;
+  name: string;
+  email: string;
+  password?: string; // dihilangkan saat response ke client
+  created_at: string;
+}
+
+export interface Workspace {
+  workspace_id: number;
+  name: string;
+  join_code: string;
+  creator_id: number;
+  created_at: string;
+}
+
+export interface WorkspaceMember {
+  id: number;
+  workspace_id: number;
+  user_id: number;
+  joined_at: string;
+}
+
+export interface Transaction {
+  transaction_id: number;
+  user_id: number;
+  workspace_id: number | null;
+  category: 'personal' | 'organization' | null;
+  merchant_name: string | null;
+  total_amount: number;
+  tax_amount: number | null;
+  transaction_date: string;
+  notes: string | null;
+  receipt_url: string | null;
+  created_at: string;
+}
+
+export interface TransactionItem {
+  item_id: number;
+  transaction_id: number;
+  item_name: string;
+  quantity: number | null;
+  price: number;
+}
+
+// -------- Request/Response Types --------
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token?: string;
+  user?: Omit<User, 'password'>;
+}
+
+export interface ApiError {
+  error: string;
+}
+
+export interface JWTPayload {
+  user_id: number;
+  email: string;
+  iat?: number;
+  exp?: number;
+}
